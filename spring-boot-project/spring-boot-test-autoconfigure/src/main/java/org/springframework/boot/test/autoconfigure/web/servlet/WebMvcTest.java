@@ -23,21 +23,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.OverrideAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.autoconfigure.filter.TypeExcludeFilters;
+import org.springframework.boot.test.context.CustomizeBootstrapWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.WebSpringBootTestContextBootstrapperCustomizer;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.env.Environment;
-import org.springframework.test.context.BootstrapWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 /**
@@ -76,8 +74,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@BootstrapWith(WebMvcTestContextBootstrapper.class)
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@CustomizeBootstrapWith(WebSpringBootTestContextBootstrapperCustomizer.class)
 @OverrideAutoConfiguration(enabled = false)
 @TypeExcludeFilters(WebMvcTypeExcludeFilter.class)
 @AutoConfigureCache
@@ -92,6 +90,7 @@ public @interface WebMvcTest {
 	 * @return the properties to add
 	 * @since 2.1.0
 	 */
+	@AliasFor(annotation = SpringBootTest.class)
 	String[] properties() default {};
 
 	/**

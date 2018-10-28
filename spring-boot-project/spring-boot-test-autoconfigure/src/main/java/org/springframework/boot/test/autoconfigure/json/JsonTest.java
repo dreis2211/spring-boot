@@ -28,13 +28,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.OverrideAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.autoconfigure.filter.TypeExcludeFilters;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.GsonTester;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonbTester;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.core.annotation.AliasFor;
 import org.springframework.core.env.Environment;
-import org.springframework.test.context.BootstrapWith;
 
 /**
  * Annotation that can be used in combination with {@code @RunWith(SpringRunner.class)}
@@ -61,7 +61,7 @@ import org.springframework.test.context.BootstrapWith;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@BootstrapWith(JsonTestContextBootstrapper.class)
+@SpringBootTest
 @OverrideAutoConfiguration(enabled = false)
 @TypeExcludeFilters(JsonExcludeFilter.class)
 @AutoConfigureCache
@@ -76,6 +76,7 @@ public @interface JsonTest {
 	 * @return the properties to add
 	 * @since 2.1.0
 	 */
+	@AliasFor(annotation = SpringBootTest.class)
 	String[] properties() default {};
 
 	/**
