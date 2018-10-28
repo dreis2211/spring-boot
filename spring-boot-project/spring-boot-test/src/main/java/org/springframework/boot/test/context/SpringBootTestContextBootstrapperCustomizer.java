@@ -30,9 +30,10 @@ import org.springframework.test.context.MergedContextConfiguration;
 interface SpringBootTestContextBootstrapperCustomizer {
 
 	/**
-	 * Customize the supplied {@link MergedContextConfiguration} instance. <p<The returned
-	 * {@link MergedContextConfiguration} instance may be a wrapper around or a
-	 * replacement of the original instance.
+	 * Customize the supplied {@link MergedContextConfiguration} instance.
+	 * <p>
+	 * The returned {@link MergedContextConfiguration} instance may be a wrapper around or
+	 * a replacement of the original instance.
 	 * <p>
 	 * Concrete subclasses may choose to return a specialized subclass of
 	 * {@link MergedContextConfiguration} based on properties in the supplied instance.

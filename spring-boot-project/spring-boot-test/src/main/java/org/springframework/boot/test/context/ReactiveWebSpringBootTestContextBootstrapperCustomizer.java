@@ -22,9 +22,9 @@ import org.springframework.test.context.MergedContextConfiguration;
 /**
  * {@link SpringBootTestContextBootstrapperCustomizer} for Reactive related tests.
  *
- * @see SpringBootTestContextBootstrapper
- * @since 2.1.0
  * @author Christoph Dreis
+ * @since 2.1.0
+ * @see SpringBootTestContextBootstrapper
  */
 public class ReactiveWebSpringBootTestContextBootstrapperCustomizer
 		extends DefaultSpringBootTestContextBootstrapperCustomizer {

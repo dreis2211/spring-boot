@@ -40,6 +40,9 @@ final class WebApplicationTypeDeducer {
 	private static final boolean IS_JERSEY_WEB_ENVIRONMENT_CLASS_PRESENT = ClassUtils
 			.isPresent("org.glassfish.jersey.server.ResourceConfig", null);
 
+	private WebApplicationTypeDeducer() {
+	}
+
 	/**
 	 * Deduce the {@link WebApplicationType} from the classpath.
 	 * @return the deduced {@link WebApplicationType}
@@ -61,8 +64,8 @@ final class WebApplicationTypeDeducer {
 	/**
 	 * Check if deduced {@link WebApplicationType} is of the given type.
 	 * @param webApplicationType the {@link WebApplicationType}
-	 * @see WebApplicationTypeDeducer#deduceWebApplicationType()
 	 * @return the deduced {@link WebApplicationType}
+	 * @see WebApplicationTypeDeducer#deduceWebApplicationType()
 	 */
 	static boolean isWebApplicationType(WebApplicationType webApplicationType) {
 		return deduceWebApplicationType() == webApplicationType;

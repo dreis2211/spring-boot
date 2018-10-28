@@ -23,9 +23,9 @@ import org.springframework.test.context.web.WebMergedContextConfiguration;
 /**
  * {@link SpringBootTestContextBootstrapperCustomizer} for Web MVC related tests.
  *
- * @see SpringBootTestContextBootstrapper
- * @since 2.1.0
  * @author Christoph Dreis
+ * @since 2.1.0
+ * @see SpringBootTestContextBootstrapper
  */
 public class WebSpringBootTestContextBootstrapperCustomizer
 		extends DefaultSpringBootTestContextBootstrapperCustomizer {
