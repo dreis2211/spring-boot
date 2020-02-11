@@ -54,7 +54,6 @@ class SampleIntegrationTests {
 		assertThat(output).contains("Hello World! From " + scriptUri);
 	}
 
-	@Disabled
 	@Test
 	void beansSample() throws Exception {
 		this.cli.run("beans.groovy");
@@ -103,7 +102,6 @@ class SampleIntegrationTests {
 		assertThat(this.cli.getHttpOutput()).isEqualTo("{\"message\":\"Hello World!\"}");
 	}
 
-	@Disabled
 	@Test
 	void httpSample() throws Exception {
 		String output = this.cli.run("http.groovy");
