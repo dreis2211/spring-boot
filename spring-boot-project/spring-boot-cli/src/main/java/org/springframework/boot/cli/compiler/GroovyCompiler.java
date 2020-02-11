@@ -21,6 +21,7 @@ import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ServiceLoader;
@@ -216,16 +217,16 @@ public class GroovyCompiler {
 
 	@SuppressWarnings("rawtypes")
 	private void addAstTransformations(CompilationUnit compilationUnit) {
-		LinkedList[] phaseOperations = getPhaseOperations(compilationUnit);
-		processConversionOperations(phaseOperations[Phases.CONVERSION]);
+		Deque[] phaseOperations = getPhaseOperations(compilationUnit);
+		processConversionOperations((LinkedList) phaseOperations[Phases.CONVERSION]);
 	}
 
 	@SuppressWarnings("rawtypes")
-	private LinkedList[] getPhaseOperations(CompilationUnit compilationUnit) {
+	private Deque[] getPhaseOperations(CompilationUnit compilationUnit) {
 		try {
 			Field field = CompilationUnit.class.getDeclaredField("phaseOperations");
 			field.setAccessible(true);
-			return (LinkedList[]) field.get(compilationUnit);
+			return (Deque[]) field.get(compilationUnit);
 		}
 		catch (Exception ex) {
 			throw new IllegalStateException("Phase operations not available from compilation unit");
