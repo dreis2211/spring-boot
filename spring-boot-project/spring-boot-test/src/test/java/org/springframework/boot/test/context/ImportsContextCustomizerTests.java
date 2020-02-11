@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.Set;
 
 import kotlin.Metadata;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.spockframework.runtime.model.SpecMetadata;
 import spock.lang.Issue;
@@ -61,14 +60,12 @@ class ImportsContextCustomizerTests {
 				.isEqualTo(new ImportsContextCustomizer(SecondKotlinAnnotatedTestClass.class));
 	}
 
-	@Disabled
 	@Test
 	void customizersForTestClassesWithDifferentSpockFrameworkAnnotationsAreEqual() {
 		assertThat(new ImportsContextCustomizer(FirstSpockFrameworkAnnotatedTestClass.class))
 				.isEqualTo(new ImportsContextCustomizer(SecondSpockFrameworkAnnotatedTestClass.class));
 	}
 
-	@Disabled
 	@Test
 	void customizersForTestClassesWithDifferentSpockLangAnnotationsAreEqual() {
 		assertThat(new ImportsContextCustomizer(FirstSpockLangAnnotatedTestClass.class))
