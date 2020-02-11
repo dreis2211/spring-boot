@@ -367,34 +367,11 @@ bom {
 	}
 	library("Groovy", "3.0.0") {
 		group("org.codehaus.groovy") {
+			imports = [
+				"groovy-bom",
+			]
 			modules = [
-				"groovy",
-				"groovy-ant",
 				"groovy-backports-compat23",
-				"groovy-bsf",
-				"groovy-cli-commons",
-				"groovy-cli-picocli",
-				"groovy-console",
-				"groovy-datetime",
-				"groovy-dateutil",
-				"groovy-docgenerator",
-				"groovy-groovydoc",
-				"groovy-groovysh",
-				"groovy-jaxb",
-				"groovy-jmx",
-				"groovy-json",
-				"groovy-json-direct",
-				"groovy-jsr223",
-				"groovy-macro",
-				"groovy-nio",
-				"groovy-servlet",
-				"groovy-sql",
-				"groovy-swing",
-				"groovy-templates",
-				"groovy-test",
-				"groovy-test-junit5",
-				"groovy-testng",
-				"groovy-xml"
 			]
 		}
 	}
