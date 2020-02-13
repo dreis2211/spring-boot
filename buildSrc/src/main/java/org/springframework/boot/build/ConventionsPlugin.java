@@ -16,6 +16,7 @@
 
 package org.springframework.boot.build;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -114,14 +115,27 @@ public class ConventionsPlugin implements Plugin<Project> {
 			project.setProperty("sourceCompatibility", "1.8");
 			project.getTasks().withType(JavaCompile.class, (compile) -> {
 				compile.getOptions().setEncoding("UTF-8");
+				if (project.hasProperty("customJavaHome")) {
+					String javaExecutable = project.property("customJavaHome") + "/bin/java";
+					compile.getOptions().getForkOptions().setJavaHome(new File(javaExecutable));
+				}
 				List<String> args = compile.getOptions().getCompilerArgs();
 				if (!args.contains("-parameters")) {
 					args.add("-parameters");
 				}
 			});
-			project.getTasks().withType(Javadoc.class,
-					(javadoc) -> javadoc.getOptions().source("1.8").encoding("UTF-8"));
+			project.getTasks().withType(Javadoc.class, (javadoc) -> {
+				if (project.hasProperty("customJavaHome")) {
+					String javaExecutable = project.property("customJavaHome") + "/bin/javadoc";
+					javadoc.setExecutable(javaExecutable);
+				}
+				javadoc.getOptions().source("1.8").encoding("UTF-8");
+			});
 			project.getTasks().withType(Test.class, (test) -> {
+				if (project.hasProperty("customJavaHome")) {
+					String javaExecutable = project.property("customJavaHome") + "/bin/java";
+					test.setExecutable(javaExecutable);
+				}
 				test.useJUnitPlatform();
 				test.setMaxHeapSize("1024M");
 			});

@@ -34,6 +34,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.diagnostics.FailureAnalysis;
 import org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter;
+import org.springframework.boot.system.JavaVersion;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -153,8 +154,11 @@ class NoSuchBeanDefinitionFailureAnalyzerTests {
 	@Test
 	void failureAnalysisForUnmatchedQualifier() {
 		FailureAnalysis analysis = analyzeFailure(createFailure(QualifiedBeanConfiguration.class));
-		assertThat(analysis.getDescription())
-				.containsPattern("@org.springframework.beans.factory.annotation.Qualifier\\(value=\"*alpha\"*\\)");
+		String pattern = "@org.springframework.beans.factory.annotation.Qualifier\\(value=\"*alpha\"*\\)";
+		if (JavaVersion.getJavaVersion().isEqualOrNewerThan(JavaVersion.FOURTEEN)) {
+			pattern = "@org.springframework.beans.factory.annotation.Qualifier\\(\"*alpha\"*\\)";
+		}
+		assertThat(analysis.getDescription()).containsPattern(pattern);
 	}
 
 	@Test
