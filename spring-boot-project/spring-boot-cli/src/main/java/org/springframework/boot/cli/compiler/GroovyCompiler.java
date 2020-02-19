@@ -271,11 +271,12 @@ public class GroovyCompiler {
 				throws CompilationFailedException {
 
 			ImportCustomizer importCustomizer = new SmartImportCustomizer(source);
-			ClassNode mainClassNode = MainClass.get(source.getAST().getClasses());
+			List<ClassNode> classNodes = source.getAST().getClasses();
+			ClassNode mainClassNode = MainClass.get(classNodes);
 
 			// Additional auto configuration
 			for (CompilerAutoConfiguration autoConfiguration : GroovyCompiler.this.compilerAutoConfigurations) {
-				if (autoConfiguration.matches(classNode)) {
+				if (classNodes.stream().anyMatch(autoConfiguration::matches)) {
 					if (GroovyCompiler.this.configuration.isGuessImports()) {
 						autoConfiguration.applyImports(importCustomizer);
 						importCustomizer.call(source, context, classNode);
