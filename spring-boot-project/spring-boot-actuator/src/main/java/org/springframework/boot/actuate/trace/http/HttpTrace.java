@@ -36,6 +36,8 @@ public final class HttpTrace {
 
 	private final Instant timestamp;
 
+	private final long nanoTime;
+
 	private volatile Principal principal;
 
 	private volatile Session session;
@@ -67,11 +69,38 @@ public final class HttpTrace {
 		this.principal = principal;
 		this.session = session;
 		this.timeTaken = timeTaken;
+		this.nanoTime = 0;
+	}
+
+	/**
+	 * Creates a fully-configured {@code HttpTrace} instance. Primarily for use by
+	 * {@link HttpTraceRepository} implementations when recreating a trace from a
+	 * persistent store.
+	 * @param request the request
+	 * @param response the response
+	 * @param timestamp the timestamp of the request-response exchange
+	 * @param principal the principal, if any
+	 * @param session the session, if any
+	 * @param timeTaken the time taken, in milliseconds, to complete the request-response
+	 * exchange, if known
+	 * @param nanoTime the nano-time when the request-response exchange happened exchange
+	 * @since 2.4.0
+	 */
+	public HttpTrace(Request request, Response response, Instant timestamp, Principal principal, Session session,
+			Long timeTaken, long nanoTime) {
+		this.request = request;
+		this.response = response;
+		this.timestamp = timestamp;
+		this.principal = principal;
+		this.session = session;
+		this.timeTaken = timeTaken;
+		this.nanoTime = nanoTime;
 	}
 
 	HttpTrace(TraceableRequest request) {
 		this.request = new Request(request);
 		this.timestamp = Instant.now();
+		this.nanoTime = System.nanoTime();
 	}
 
 	public Instant getTimestamp() {
@@ -116,6 +145,10 @@ public final class HttpTrace {
 
 	void setTimeTaken(long timeTaken) {
 		this.timeTaken = timeTaken;
+	}
+
+	public long getNanoTime() {
+		return nanoTime;
 	}
 
 	/**
