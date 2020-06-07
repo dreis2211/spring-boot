@@ -83,7 +83,7 @@ public final class HttpTrace {
 	 * @param session the session, if any
 	 * @param timeTaken the time taken, in milliseconds, to complete the request-response
 	 * exchange, if known
-	 * @param nanoTime the nano-time when the request-response exchange happened exchange
+	 * @param nanoTime the nano-time when the request-response exchange happened
 	 * @since 2.4.0
 	 */
 	public HttpTrace(Request request, Response response, Instant timestamp, Principal principal, Session session,
