@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.jar.Attributes.Name;
+import java.util.jar.JarFile;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 
@@ -69,6 +72,7 @@ class BootZipCopyAction implements CopyAction {
 
 	static final long CONSTANT_TIME_FOR_ZIP_ENTRIES = new GregorianCalendar(1980, Calendar.FEBRUARY, 1, 0, 0, 0)
 			.getTimeInMillis();
+	static final Pattern SPRING_BOOT_STARTER_JAR_PATTERN = Pattern.compile("spring-boot-starter-.*\\.jar");
 
 	private final File output;
 
@@ -232,6 +236,9 @@ class BootZipCopyAction implements CopyAction {
 		}
 
 		private void processFile(FileCopyDetails details) throws IOException {
+			if (isSpringBootStarterJar(details)) {
+				return;
+			}
 			String name = details.getRelativePath().getPathString();
 			ZipArchiveEntry entry = new ZipArchiveEntry(name);
 			prepareEntry(entry, name, getTime(details), UnixStat.FILE_FLAG | details.getMode());
@@ -249,6 +256,17 @@ class BootZipCopyAction implements CopyAction {
 				Layer layer = BootZipCopyAction.this.layerResolver.getLayer(details);
 				this.layerIndex.add(layer, name);
 			}
+		}
+
+		private boolean isSpringBootStarterJar(FileCopyDetails details) {
+			if (SPRING_BOOT_STARTER_JAR_PATTERN.matcher(details.getSourceName()).matches()) {
+				try (JarFile jarFile = new JarFile(details.getFile())) {
+					return jarFile.getManifest().getMainAttributes().containsKey(new Name("Spring-Boot-Starter"));
+				} catch (Exception ex) {
+					return false;
+				}
+			}
+			return false;
 		}
 
 		private void writeParentDirectoriesIfNecessary(String name, Long time) throws IOException {
