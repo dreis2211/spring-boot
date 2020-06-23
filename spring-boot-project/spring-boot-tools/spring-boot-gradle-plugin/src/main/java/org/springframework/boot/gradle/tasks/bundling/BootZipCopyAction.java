@@ -30,8 +30,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.jar.Attributes.Name;
-import java.util.jar.JarFile;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.CRC32;
@@ -52,6 +50,7 @@ import org.gradle.api.tasks.WorkResults;
 
 import org.springframework.boot.loader.tools.DefaultLaunchScript;
 import org.springframework.boot.loader.tools.FileUtils;
+import org.springframework.boot.loader.tools.JarFileUtils;
 import org.springframework.boot.loader.tools.JarModeLibrary;
 import org.springframework.boot.loader.tools.Layer;
 import org.springframework.boot.loader.tools.LayersIndex;
@@ -260,11 +259,7 @@ class BootZipCopyAction implements CopyAction {
 
 		private boolean isSpringBootStarterJar(FileCopyDetails details) {
 			if (SPRING_BOOT_STARTER_JAR_PATTERN.matcher(details.getSourceName()).matches()) {
-				try (JarFile jarFile = new JarFile(details.getFile())) {
-					return jarFile.getManifest().getMainAttributes().containsKey(new Name("Spring-Boot-Starter"));
-				} catch (Exception ex) {
-					return false;
-				}
+				return JarFileUtils.hasManifestAttribute(details.getFile(), "Spring-Boot-Starter");
 			}
 			return false;
 		}

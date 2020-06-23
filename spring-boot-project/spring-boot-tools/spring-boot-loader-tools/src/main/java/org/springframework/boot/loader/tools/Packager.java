@@ -484,11 +484,7 @@ public abstract class Packager {
 
 		private boolean isSpringBootStarterJar(Library library) {
 			if (SPRING_BOOT_STARTER_JAR_PATTERN.matcher(library.getName()).matches()) {
-				try (JarFile jarFile = new JarFile(library.getFile())) {
-					return jarFile.getManifest().getMainAttributes().containsKey(new Attributes.Name("Spring-Boot-Starter"));
-				} catch (Exception ex) {
-					return false;
-				}
+				return JarFileUtils.hasManifestAttribute(library.getFile(), "Spring-Boot-Starter");
 			}
 			return false;
 		}

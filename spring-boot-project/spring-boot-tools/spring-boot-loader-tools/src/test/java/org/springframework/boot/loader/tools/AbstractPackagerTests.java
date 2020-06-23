@@ -585,13 +585,11 @@ abstract class AbstractPackagerTests<P extends Packager> {
 	}
 
 	@Test
-	void springBootStarterJarsAreExcluded() throws IOException {
+	void springBootStarterJarIsExcluded() throws IOException {
 		this.testJarFile.addClass("com/example/Application.class", ClassWithMainMethod.class);
 		File libraryOne = createSpringBootJarFile("spring-boot-starter-web-0.1.2.jar");
 		P packager = createPackager();
-		execute(packager, (callback) -> {
-			callback.library(new Library(libraryOne, LibraryScope.COMPILE, false));
-		});
+		execute(packager, (callback) -> callback.library(new Library(libraryOne, LibraryScope.COMPILE, false)));
 		assertThat(getPackagedEntryNames()).doesNotContain("BOOT-INF/lib/" + libraryOne.getName());
 	}
 
