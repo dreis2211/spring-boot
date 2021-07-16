@@ -43,9 +43,6 @@ public class GradleMultiDslExtension implements TestTemplateInvocationContextPro
 
 	@Override
 	public Stream<TestTemplateInvocationContext> provideTestTemplateInvocationContexts(ExtensionContext context) {
-		if (JavaVersion.current() == JavaVersion.VERSION_17) {
-			return Stream.of(new DisabledTemplateInvocationContext());
-		}
 		return Stream.of(Dsl.values()).map(DslTestTemplateInvocationContext::new);
 	}
 
