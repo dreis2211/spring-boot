@@ -49,7 +49,6 @@ import org.gradle.testkit.runner.BuildResult;
 import org.gradle.testkit.runner.TaskOutcome;
 import org.junit.jupiter.api.TestTemplate;
 
-import org.springframework.boot.gradle.junit.GradleCompatibility;
 import org.springframework.boot.loader.tools.FileUtils;
 import org.springframework.boot.loader.tools.JarModeLibrary;
 import org.springframework.boot.testsupport.gradle.testkit.GradleBuild;
@@ -115,7 +114,7 @@ abstract class AbstractBootArchiveIntegrationTests {
 	void upToDateWhenBuiltTwiceWithLaunchScriptIncluded() {
 		assertThat(this.gradleBuild.build("-PincludeLaunchScript=true", this.taskName).task(":" + this.taskName)
 				.getOutcome()).isEqualTo(TaskOutcome.SUCCESS);
-		assertThat(this.gradleBuild.build("-PincludeLaunchScript=true", this.taskName).task(":" + this.taskName)
+		assertThat(this.gradleBuild.expectDeprecationWarningsWithAtLeastVersion("7.2-20210715231856+0000").build("-PincludeLaunchScript=true", this.taskName).task(":" + this.taskName)
 				.getOutcome()).isEqualTo(TaskOutcome.UP_TO_DATE);
 	}
 
